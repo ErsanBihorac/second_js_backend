@@ -1,20 +1,73 @@
-// console.log('this is node js tutorial');
-// console.log('this is the first tutorial on nodejs');
-// console.log('we will cover nodejs with command line');
-// process.exit(1);
-// process.exitCode = 0;
+const path = require('path');
 
-// const _ = require("lodash");
-// const arr = [1, 4, 6, 8];
-// console.log(_.chunk(arr));
+const filePath = "C:/Dev/Backend/JavaScript/tutorial2/files/sample.txt"
 
-// const cowsay = require('cowsay');
-// console.log(cowsay.say({
-//     text: "I am learning NPM modules",
-//     e: "00",
-//     t: "U"
-// }));
+//dirname
+// console.log(path.dirname(filePath));
+// console.log(__dirname);
+// //basename
+// console.log(path.basename(filePath));
+// console.log(__filename)
+// //extension
+// console.log(path.extname(filePath));
+// const sampleFile = "sample.txt"
 
-const { tesla, ford } = require("./car");
-console.log(JSON.stringify(tesla, null, 3));
-console.log(JSON.stringify(ford, undefined, 2));
+// console.log(path.join(path.dirname(filePath), sampleFile));
+
+const fs = require('fs');
+const fsPromise = require('fs').promises;
+//Reading from a file - Async
+// fs.readFile(filePath, 'utf-8', (err, data) => {
+//     if (err) throw new Error('Something went wrong!');
+//     console.log(data);
+// });
+
+// try {
+//     const data = fs.readFileSync(path.join(__dirname, 'files', 'sample.txt'), 'utf-8');
+//     console.log(data);
+// } catch (err) {
+//     console.log(err)
+// }
+
+const filereading = async () => {
+    try {
+        const data = await fsPromise.readFile(filePath, { encoding: 'utf-8' });
+        console.log('FS PROMISES: ', data);
+    } catch {
+        console.log(err);
+    }
+}
+
+filereading();
+
+//Writing into file
+
+const txtFile = path.join(__dirname, "files", "text.txt");
+const content = 'I love this nodejs tutorial series';
+// fs.writeFile(txtFile, content, (err) => {
+//     if (err) throw new Error('Something went wrong!');
+//     console.log('Write Operation Completed Successfully!');
+//     fs.readFile(txtFile, 'utf-8', (err, data) => {
+//         if (err) throw new Error(err)
+//         console.log(data);
+//     })
+// });
+
+const writingInFile = async () => {
+    try {
+        await fsPromise.writeFile(txtFile, '\n We have given a new name to the file!', {
+            flag: 'a+',
+        });
+        // await fsPromise.appendFile(txtFile, '\n this is file appender');
+        await fs.promises.rename(
+            txtFile,
+            path.join(__dirname, 'files', 'newtxt.txt')
+        );
+        const data = await fsPromise.readFile(path.join(__dirname, 'files', 'newtxt.txt'));
+        console.log(data.toString());
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+writingInFile();

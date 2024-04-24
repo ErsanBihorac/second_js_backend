@@ -1,0 +1,4 @@
+I love this nodejs tutorial series
+ this is file appender
+ its awesome!
+ We have given a new name to the file!
